@@ -1,3 +1,6 @@
+-- TODO create views
+-- TODO refine procedures
+
 create schema CW2;
 
 create table CW2.users
@@ -51,6 +54,10 @@ create table CW2.trail_logs
     created_at datetime   not null default getdate()
 );
 
+----------------------------
+----------TRIGGERS----------
+----------------------------
+
 -- Trigger for when new trails are created
 create trigger CW2.log_new_trail_trigger
     on CW2.trails
@@ -71,6 +78,11 @@ end;
         values ((select user_id from inserted), (select trail_id from inserted), 'update');
     end;
 
--- TODO create views
--- TODO rewrite seed with sample users
--- TODO refine procedures
+----------------------------
+-----------VIEWS------------
+----------------------------
+
+create view CW2.trail_view as
+    select t.title from CW2.trails t
+        join CW2.trail_points tp on tp.trail_id = t.trail_id
+        join CW2.trail_locations tl on tl.location_id in (t.country_id, t.county_id, t.city_id);

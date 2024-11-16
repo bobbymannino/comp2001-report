@@ -1,0 +1,74 @@
+openapi: 3.1.0
+info:
+  title: "COMP2001 API"
+  summary: "This is a simple API doc using OpenAPI v3.1.0"
+  description: "My simple python/sql server API documentation"
+  version: 1.0.0
+  contact:
+    name: "Bobby Mannino"
+    email: "manninobobby@icloud.com"
+    url: "https://bobman.dev"
+servers:
+  - url: "http://cent-5-534.uopnet.plymouth.ac.uk/COMP2001/BMannino"
+paths:
+  "/trails":
+    get:
+      tags: ["trails"]
+      operationId: "listTrails"
+      summary: "Return an array of trails"
+      description: "Returns all the trails. If the user is an admin will return all details, if not it will return limited details"
+      parameters:
+        - schema:
+          "$ref": "#/components/parameters/limit"
+        - schema:
+          "$ref": "#/components/parameters/email"
+        - schema:
+          "$ref": "#/components/parameters/password"
+      responses:
+        "200":
+          description: "An array of trails"
+          content:
+            "application/json":
+              oneOf:
+                - schema:
+                  "$ref": "#/components/schemas/Trails"
+components:
+  schemas:
+    Trail:
+      type: "object"
+      proporties:
+        id:
+          type: "integer"
+          format: "int32"
+    Trails:
+      type: "array"
+      items:
+        "$ref": "#/components/schemas/Trail"
+  parameters:
+    email:
+      name: "x-email"
+      in: "header"
+      required: false
+      description: "The email of the user"
+      schema:
+        type: "string"
+        format: "string"
+    password:
+      name: "x-password"
+      in: "header"
+      required: false
+      description: "The password of the user"
+      schema:
+        type: "string"
+        format: "password"
+    limit:
+      name: "limit"
+      in: "query"
+      description: "number of items to take"
+      required: false
+      schema:
+        type: "integer"
+        format: "int32"
+tags:
+  - name: "trails"
+    description: "Trail operations"

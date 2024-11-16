@@ -12,4 +12,4 @@
 - [ ] Python API
 - [ ] RESTful API
 - [ ] Output JSON
-- [ ] Interface via [swagger](https://swagger.io/)
+- [ ] API interface using OpenAPI

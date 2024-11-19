@@ -23,4 +23,5 @@ A simple api interface made with OpenAPI 3.1, programmed in python, that interac
 - [ ] Write SQL Database (with test data)
 - [ ] Program Python Server
 - [ ] UML Diagrams
+- [ ] Test the entire program
 - [ ] Deploy to UoP

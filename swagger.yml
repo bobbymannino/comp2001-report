@@ -92,7 +92,7 @@ paths:
       responses:
         "201":
           description: "Created trail successfully"
-  "/trails/{trailId}":
+  "/trails/{trail_id}":
     get:
       tags: ["trails"]
       operationId: "trails.read_one"

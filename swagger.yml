@@ -1,0 +1,138 @@
+openapi: 3.0.0
+
+info:
+  title: "COMP2001 API"
+  description: "My simple python/sql/openapi server documentation for COMP2001 by Bobby Mannino"
+  version: 1.0.0
+  contact:
+    name: "Bobby Mannino"
+    email: "manninobobby@icloud.com"
+    url: "https://bobman.dev"
+
+servers:
+  - url: "/api"
+
+tags:
+  - name: "trails"
+    description: "Trail (hike) operations"
+
+components:
+  schemas:
+    Trail:
+      type: "object"
+      properties:
+        trail_id:
+          type: "integer"
+        author_id:
+          type: "integer"
+        length:
+          type: "integer"
+        elevation_gain:
+          type: "integer"
+        name:
+          type: "string"
+        summary:
+          type: "string"
+        description:
+          type: "string"
+        location:
+          type: "string"
+        route_type:
+          type: "string"
+  parameters:
+    trail_id:
+      name: "trail_id"
+      in: "path"
+      required: true
+      description: "The id of the trail"
+      schema:
+        type: "integer"
+    email:
+      name: "x-email"
+      in: "header"
+      required: false
+      description: "The email of the user"
+      schema:
+        $ref: "#/components/schemas/UserEmail"
+    password:
+      name: "x-password"
+      in: "header"
+      required: false
+      description: "The password of the user"
+      schema:
+        $ref: "#/components/schemas/UserPassword"
+
+paths:
+  "/trails":
+    get:
+      tags: ["trails"]
+      operationId: "trails.read_all"
+      summary: "Return an array of trails"
+      description: "Returns an array the trails. The information returned is limited."
+      responses:
+        "200":
+          description: "An array of trails"
+    post:
+      tags: ["trails"]
+      operationId: "trails.create"
+      summary: "Create a new trail"
+      description: "Create a new trail in the database"
+      parameters:
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
+      requestBody:
+        description: "The trail to create"
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Trail"
+      responses:
+        "201":
+          description: "Created trail successfully"
+  "/trails/{trailId}":
+    get:
+      tags: ["trails"]
+      operationId: "trails.read_one"
+      summary: "Return info about a certain trail"
+      description: "Returns info about a certain trail, if you are not an admin you will get limited details about the trail."
+      responses:
+        "200":
+          description: "Information about a trail"
+    put:
+      tags: ["trails"]
+      operationId: "trails.update"
+      summary: "Update a trails information"
+      description: "Update information about a trail in the database"
+      parameters:
+        - schema:
+          $ref: "#/components/parameters/trail_id"
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
+      responses:
+        "200":
+          description: "Trail has been updated"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trail"
+    delete:
+      tags: ["trails"]
+      operationId: "trails.delete"
+      summary: "Remove a trail from the database"
+      description: "Remove a trail from the database. This will only work if you are an admin."
+      parameters:
+        - schema:
+          $ref: "#/components/parameters/trail_id"
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
+      responses:
+        "204":
+          description: "Trail has been removed"

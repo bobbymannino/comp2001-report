@@ -2,9 +2,9 @@
 
 ## Introduction
 
-[Web Server](http://cent-5-534.uopnet.plymouth.ac.uk/COMP2001/BMannino)
+[**_Web Server_**](http://cent-5-534.uopnet.plymouth.ac.uk/COMP2001/BMannino)
 
-[GitHub Repo](https://github.com/bobbymannino/comp2001-report)
+[**_GitHub Repo_**](https://github.com/bobbymannino/comp2001-report)
 
 I have created an API written in python, it enabled all CRUD operations. It manipulates a set of trails that I have stored in a SQL database so they are persistent. I have also documented this API using OpenAPI standards.
 

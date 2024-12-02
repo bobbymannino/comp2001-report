@@ -1,7 +1,9 @@
 from flask import abort, make_response, request
-
+import requests
 from config import db
 from models import Trail, trails_schema, trail_schema
+
+AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
 def read_all():
     trails = Trail.query.all()
@@ -45,12 +47,19 @@ def update(trail_id, trail):
 def delete(trail_id):
     email = request.headers.get("x-email")
     password = request.headers.get("x-password")
+    if email is None or password is None:
+        abort(401, "Unauthorized credentials")
+
+    body = {"Email": email, "Password": password}
+    response = requests.post(AUTH_URL, json=body)
+    if response.status_code != 200:
+        abort(401, "Unauthorized credentials")
 
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
 
     if trail is not None:
-        # db.session.delete(trail)
-        # db.session.commit()
+        db.session.delete(trail)
+        db.session.commit()
         return make_response(f"Trail with ID {trail_id} deleted", 200)
     else:
         abort(404, f"Trail with ID {trail_id} not found")

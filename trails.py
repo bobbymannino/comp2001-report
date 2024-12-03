@@ -10,10 +10,12 @@ def is_user_admin(email: str | None, password: str | None):
     if email is None or password is None:
         return False
 
-    body = {"Email": email, "Password": password}
+    body = {"email": email, "password": password}
     response = requests.post(AUTH_URL, json=body)
 
-    return response.status_code == 200
+    response = response.json()
+
+    return response[1] == 'True'
 
 def read_all():
     trails = Trail.query.all()
@@ -28,6 +30,11 @@ def read_one(trail_id):
     return trail_schema.jsonify(trail)
 
 def create():
+    email = request.headers.get("x-email")
+    password = request.headers.get("x-password")
+    if is_user_admin(email, password) == False:
+        abort(401, "Unauthorized credentials")
+
     trail = request.get_json()
 
     user = User.query.filter(User.user_id == trail['author_id']).one_or_none()

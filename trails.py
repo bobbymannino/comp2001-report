@@ -1,12 +1,16 @@
-from flask import abort, make_response, request
+from flask import abort, make_response, request, Headers
 import requests
 from config import db
 from models import Trail, User, trails_schema, trail_schema
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
-def is_user_admin(email: str | None, password: str | None):
+def is_user_admin(headers: Headers):
     """Will return True if the user is an admin via the auth API"""
+
+    email = headers.get("x-email")
+    password = headers.get("x-password")
+
     if email is None or password is None:
         return False
 
@@ -30,9 +34,7 @@ def read_one(trail_id):
     return trail_schema.jsonify(trail)
 
 def create():
-    email = request.headers.get("x-email")
-    password = request.headers.get("x-password")
-    if is_user_admin(email, password) == False:
+    if is_user_admin(request.headers) == False:
         abort(401, "Unauthorized credentials")
 
     trail = request.get_json()
@@ -47,9 +49,7 @@ def create():
     return trail_schema.jsonify(new_trail), 201
 
 def update(trail_id):
-    email = request.headers.get("x-email")
-    password = request.headers.get("x-password")
-    if is_user_admin(email, password) == False:
+    if is_user_admin(request.headers) == False:
         abort(401, "Unauthorized credentials")
 
     existing_trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
@@ -72,9 +72,7 @@ def update(trail_id):
     return trail_schema.jsonify(new_trail), 201
 
 def delete(trail_id):
-    email = request.headers.get("x-email")
-    password = request.headers.get("x-password")
-    if is_user_admin(email, password) == False:
+    if is_user_admin(request.headers) == False:
         abort(401, "Unauthorized credentials")
 
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()

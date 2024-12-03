@@ -1,6 +1,6 @@
 # COMP2001 Report
 
-A simple api interface made with OpenAPI 3.1, programmed in python, that interacts with an sql database
+A simple api interface made with OpenAPI 3.0.0, programmed in python, that interacts with an sql database
 
 ## Requirements
 
@@ -18,10 +18,10 @@ A simple api interface made with OpenAPI 3.1, programmed in python, that interac
 
 ## TODO
 
-- [ ] Finish Report
-- [ ] Write API Interface
-- [ ] Write SQL Database (with test data)
-- [ ] Program Python Server
+- [x] GUI Interface
 - [ ] UML Diagrams
-- [ ] Test the entire program
+- [x] Write API YAML File
+- [x] Write SQL Database (with test data)
+- [ ] Program Python Server
 - [ ] Deploy to UoP
+- [ ] Report

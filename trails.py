@@ -1,7 +1,7 @@
 from flask import abort, make_response, request
 import requests
 from config import db
-from models import Trail, User, trails_schema, trail_schema, user_schema
+from models import Trail, User, trails_schema, trail_schema
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
@@ -45,14 +45,19 @@ def update(trail_id):
     if is_user_admin(email, password) == False:
         abort(401, "Unauthorized credentials")
 
+    existing_trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
 
-    trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
-
-    if trail is None:
+    if existing_trail is None:
         abort(404, f"Trail with ID {trail_id} not found")
 
-    new_trail = trail_schema.load(request.get_json(), session=db.session)
-    new_trail.trail_id = trail_id
+    new_trail = request.get_json()
+    new_trail['trail_id'] = trail_id
+
+    user = User.query.filter(User.user_id == new_trail['author_id']).one_or_none()
+    if user is None:
+        abort(404, f"User with ID {new_trail['author_id']} not found")
+
+    new_trail = trail_schema.load(new_trail, session=db.session)
 
     db.session.merge(new_trail)
     db.session.commit()

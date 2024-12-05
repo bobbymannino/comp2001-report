@@ -1,7 +1,8 @@
 from flask import abort, make_response, request, Request
 import requests
 from config import db
-from models import Trail, User, trails_schema, trail_schema
+from models import Trail, TrailSchema, User, Point
+import json
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
@@ -24,14 +25,32 @@ def is_user_admin(req: Request):
 def read_all():
     trails = Trail.query.all()
 
-    return trails_schema.jsonify(trails)
+    return TrailSchema(many=True).dump(trails)
+
+def m(x):
+    point = Point.query.filter(Point.point_id == x.point_id).one_or_none()
+    if point is None:
+        return None
+
+    return {
+        "position": x.position,
+        "longitude": point.longitude,
+        "latitude": point.latitude,
+        "description": point.description
+    }
+
 
 def read_one(trail_id):
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
     if trail is None:
         abort(404, f"Trail with ID {trail_id} not found")
 
-    return trail_schema.jsonify(trail)
+    points = map(m, trail.trail_points)
+    points = list(filter(None, points))
+
+    trail = TrailSchema().dump(trail);
+
+    return json.loads(json.dumps(trail)) | {"points": points}
 
 def create():
     if is_user_admin(request) == False:
@@ -43,10 +62,10 @@ def create():
     if user is None:
         abort(404, f"User with ID {trail['author_id']} not found")
 
-    new_trail = trail_schema.load(trail, session=db.session)
+    new_trail = TrailSchema().load(trail, session=db.session)
     db.session.add(new_trail)
     db.session.commit()
-    return trail_schema.jsonify(new_trail), 201
+    return TrailSchema().dump(new_trail), 201
 
 def update(trail_id):
     if is_user_admin(request) == False:
@@ -64,12 +83,12 @@ def update(trail_id):
     if user is None:
         abort(404, f"User with ID {new_trail['author_id']} not found")
 
-    new_trail = trail_schema.load(new_trail, session=db.session)
+    new_trail = TrailSchema().load(new_trail, session=db.session)
 
     db.session.merge(new_trail)
     db.session.commit()
 
-    return trail_schema.jsonify(new_trail), 201
+    return TrailSchema().dump(new_trail), 201
 
 def delete(trail_id):
     if is_user_admin(request) == False:

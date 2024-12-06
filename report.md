@@ -25,3 +25,39 @@ I had the database basis from the coursework before this one, but there were a c
 ## Implementation
 
 ## Evaluation
+
+# BELOW ARE THE THINGS I NEED TO WRITE
+
+### Introduction
+
+Provides an introduction to the document and signposts the reader to what they will find in the document.
+GitHub link provided. GitHub repo in the correct place (GitHub classroom provided for module).
+Link provide to web.socem deployment of micro-service.
+
+### Background
+
+Outline provided for the micro-service. 4
+Design Appropriate UML diagrams used.
+Clear demonstration of understanding how to design micro-service in place.
+Design clearly shows progression of understanding through high level overview through to detail.
+
+### LSEP
+
+Literature used to justify appropriate for information security, privacy, integrity and preservation.
+Literature provided using Harvard style referencing.
+Appropriate approaches used to meet requirements for a secure, private application.
+Data items designed in a way that enforces integrity, privacy and security.
+
+### Implementation
+
+Implementation discussed at appropriate level in report.
+Implementation matches code in GitHub classroom and provided design diagrams.
+Implementation meets requirements alluded to above (CRUD)
+Implementation is RESTful API
+Endpoints appropriately represented in documentation, design and implementation.
+
+### Evaluation
+
+Clear evidence of testing provided.
+Reflection provided on further work.
+Honest reflection provided on weak areas of implementation.

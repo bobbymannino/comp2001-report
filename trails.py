@@ -58,6 +58,8 @@ def create():
 
     trail = request.get_json()
 
+    # add points to trail_points
+
     user = User.query.filter(User.user_id == trail['author_id']).one_or_none()
     if user is None:
         abort(404, f"User with ID {trail['author_id']} not found")
@@ -98,6 +100,9 @@ def delete(trail_id):
 
     if trail is None:
         abort(404, f"Trail with ID {trail_id} not found")
+
+    for point in trail.trail_points:
+        db.session.delete(point)
 
     db.session.delete(trail)
     db.session.commit()

@@ -27,25 +27,24 @@ def read_all():
 
     return TrailSchema(many=True).dump(trails)
 
-def m(x):
-    point = Point.query.filter(Point.point_id == x.point_id).one_or_none()
+def get_point(trail_point):
+    point = Point.query.filter(Point.point_id == trail_point.point_id).one_or_none()
     if point is None:
         return None
 
     return {
-        "position": x.position,
+        "position": trail_point.position,
         "longitude": point.longitude,
         "latitude": point.latitude,
         "description": point.description
     }
-
 
 def read_one(trail_id):
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
     if trail is None:
         abort(404, f"Trail with ID {trail_id} not found")
 
-    points = map(m, trail.trail_points)
+    points = map(get_point, trail.trail_points)
     points = list(filter(None, points))
 
     trail = TrailSchema().dump(trail);

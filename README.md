@@ -4,10 +4,11 @@ A simple api interface made with OpenAPI 3.0.0, programmed in python, that inter
 
 ## Requirements
 
-- Admin are able to create a trail
-- Anyone can view a trail (limited info on trail)
-- Admin can edit a trail
-- Admin can delete a trail
+- [x] Admins are able to create a trail
+- [x] Anyone can view a trail
+- [x] Anyone can view all trails
+- [x] Admins can edit a trail
+- [x] Admins can delete a trail
 
 ## Non-functional requirements
 
@@ -22,6 +23,6 @@ A simple api interface made with OpenAPI 3.0.0, programmed in python, that inter
 - [ ] UML Diagrams
 - [x] Write API YAML File
 - [x] Write SQL Database (with test data)
-- [ ] Program Python Server
+- [x] Program Python Server
 - [ ] Deploy to UoP
 - [ ] Report

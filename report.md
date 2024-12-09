@@ -18,6 +18,12 @@ I had the database basis from the coursework before this one, but there were a c
 - changed datatype from "text" to "varchar(max)" as text is depreciated
 - added "email" property to users table
 
+![a](./erd.png){ width=400px }
+
+![a](./sequence-diagram-new-trail.png){ width=400px }
+
+![a](./sequence-diagram-get-trail.png){ width=400px }
+
 ## Design
 
 ## LSEP
@@ -61,3 +67,5 @@ Endpoints appropriately represented in documentation, design and implementation.
 Clear evidence of testing provided.
 Reflection provided on further work.
 Honest reflection provided on weak areas of implementation.
+
+OWASP top 10?

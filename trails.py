@@ -6,6 +6,9 @@ import json
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
+def is_user_admin(user):
+    return user.role == 'ADMIN'
+
 def get_user(req: Request):
     email = request.headers.get("x-email")
     user = User.query.filter(User.email == email).one_or_none()
@@ -62,7 +65,7 @@ def create():
         abort(401, "Unauthorized credentials")
 
     user = get_user(request)
-    if user is None or user.role != 'ADMIN':
+    if user is None or is_user_admin(user) == False:
         abort(401, "Unauthorized credentials")
 
     trail = request.get_json()
@@ -109,7 +112,7 @@ def update(trail_id):
         abort(401, "Unauthorized credentials")
 
     user = get_user(request)
-    if user is None or user.role != 'ADMIN':
+    if user is None or is_user_admin(user) == False:
         abort(401, "Unauthorized credentials")
 
     existing_trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
@@ -133,7 +136,7 @@ def delete(trail_id):
         abort(401, "Unauthorized credentials")
 
     user = get_user(request)
-    if user is None or user.role != 'ADMIN':
+    if user is None or is_user_admin(user) == False:
         abort(401, "Unauthorized credentials")
 
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()

@@ -1,4 +1,3 @@
-from marshmallow import EXCLUDE
 from flask import abort, make_response, request, Request
 import requests
 from config import db
@@ -7,7 +6,13 @@ import json
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 
-def is_user_admin(req: Request):
+def get_user(req: Request):
+    email = request.headers.get("x-email")
+    user = User.query.filter(User.email == email).one_or_none()
+
+    return user
+
+def is_user_real(req: Request):
     """Will return True if the user is an admin via the auth API"""
 
     email = req.headers.get("x-email")
@@ -53,19 +58,14 @@ def read_one(trail_id):
     return json.loads(json.dumps(trail)) | {"points": points}
 
 def create():
-    if is_user_admin(request) == False:
+    if is_user_real(request) == False:
+        abort(401, "Unauthorized credentials")
+
+    user = get_user(request)
+    if user is None or user.role != 'ADMIN':
         abort(401, "Unauthorized credentials")
 
     trail = request.get_json()
-
-    email = request.headers.get("x-email")
-    user = User.query.filter(User.email == email).one_or_none()
-    if user is None:
-        abort(404, f"User with email {email} not found")
-
-    # check if user is admin
-    if user.role != 'ADMIN':
-        abort(401, "Not an admin")
 
     points = trail['points']
     trail = {
@@ -105,7 +105,11 @@ def create():
     return TrailSchema().dump(new_trail), 201
 
 def update(trail_id):
-    if is_user_admin(request) == False:
+    if is_user_real(request) == False:
+        abort(401, "Unauthorized credentials")
+
+    user = get_user(request)
+    if user is None or user.role != 'ADMIN':
         abort(401, "Unauthorized credentials")
 
     existing_trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()
@@ -115,10 +119,7 @@ def update(trail_id):
 
     new_trail = request.get_json()
     new_trail['trail_id'] = trail_id
-
-    user = User.query.filter(User.user_id == new_trail['author_id']).one_or_none()
-    if user is None:
-        abort(404, f"User with ID {new_trail['author_id']} not found")
+    new_trail['author_id'] = user.user_id
 
     new_trail = TrailSchema().load(new_trail, session=db.session)
 
@@ -128,7 +129,11 @@ def update(trail_id):
     return TrailSchema().dump(new_trail), 201
 
 def delete(trail_id):
-    if is_user_admin(request) == False:
+    if is_user_real(request) == False:
+        abort(401, "Unauthorized credentials")
+
+    user = get_user(request)
+    if user is None or user.role != 'ADMIN':
         abort(401, "Unauthorized credentials")
 
     trail = Trail.query.filter(Trail.trail_id == trail_id).one_or_none()

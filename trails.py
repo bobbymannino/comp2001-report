@@ -1,7 +1,8 @@
+from marshmallow import EXCLUDE
 from flask import abort, make_response, request, Request
 import requests
 from config import db
-from models import Trail, TrailSchema, User, Point
+from models import Trail, TrailSchema, User, Point, PointSchema, TrailPoint, TrailPointSchema
 import json
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
@@ -57,14 +58,49 @@ def create():
 
     trail = request.get_json()
 
-    # add points to trail_points
-
-    user = User.query.filter(User.user_id == trail['author_id']).one_or_none()
+    email = request.headers.get("x-email")
+    user = User.query.filter(User.email == email).one_or_none()
     if user is None:
-        abort(404, f"User with ID {trail['author_id']} not found")
+        abort(404, f"User with email {email} not found")
 
+    # check if user is admin
+    if user.role != 'ADMIN':
+        abort(401, "Not an admin")
+
+    points = trail['points']
+    trail = {
+        "author_id": user.user_id,
+        "name": trail['name'],
+        "summary": trail['summary'],
+        "description": trail['description'],
+        "location": trail['location'],
+        "length": trail['length'],
+        "elevation_gain": trail['elevation_gain'],
+        "route_type": trail['route_type']
+    }
     new_trail = TrailSchema().load(trail, session=db.session)
     db.session.add(new_trail)
+    db.session.commit()
+
+    # add points to trail_points
+    for point in points:
+        p = {
+            "longitude": point['longitude'],
+            "latitude": point['latitude'],
+            "description": point['description']
+        }
+        new_point = PointSchema().load(p, session=db.session)
+        db.session.add(new_point)
+        db.session.commit()
+
+        p = {
+            "trail_id": new_trail.trail_id,
+            "point_id": new_point.point_id,
+            "position": point['position']
+        }
+        new_trail_point = TrailPointSchema().load(p, session=db.session)
+        db.session.add(new_trail_point)
+
     db.session.commit()
     return TrailSchema().dump(new_trail), 201
 

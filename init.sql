@@ -156,3 +156,5 @@ values
     (3, 3, 4),
     (3, 10, 5),
     (3, 9, 6);
+
+select * from CW2.users;

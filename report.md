@@ -6,6 +6,9 @@
 
 [**_GitHub Repo_**](https://github.com/bobbymannino/comp2001-report)
 
+> ![NOTE]
+> add docker link
+
 I have created an API written in python, it enabled all CRUD operations. It manipulates a set of trails that I have stored in a SQL database so they are persistent. I have also documented this API using OpenAPI standards.
 
 In this document you will find documentation for my implementation of the API interface. You will also find a UML diagram for the api, an OpenAPI YAML file, legal, social, ethical and professional concerns and approaches to fix those concerns as well as screenshots of everything working and at the very end an evaluation.
@@ -18,11 +21,13 @@ I had the database basis from the coursework before this one, but there were a c
 - changed datatype from "text" to "varchar(max)" as text is depreciated
 - added "email" property to users table
 
-![a](./erd.png){ width=400px }
+I wrote the above 2 paragraphs about 2 weeks ago but things have changed since then, I spoke to some people and realised that i have made my database more complicated then it needs to be so i have decided to design it from the bottom up again. I have kept some of the tables as they were but some i have not kept at all or some i have made minor changes to. The new ERD is below;
 
-![a](./sequence-diagram-new-trail.png){ width=400px }
+![ERD](./erd.png){ width=400px }
 
-![a](./sequence-diagram-get-trail.png){ width=400px }
+![Sequence Diagram - New Trail](./sequence-diagram-new-trail.png){ width=400px }
+
+![Sequence Diagram - Get Trail](./sequence-diagram-get-trail.png){ width=400px }
 
 ## Design
 

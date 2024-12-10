@@ -6,8 +6,11 @@
 
 [**_GitHub Repo_**](https://github.com/bobbymannino/comp2001-report)
 
-> ![NOTE]
+---
+
 > add docker link
+
+---
 
 I have created an API written in python, it enabled all CRUD operations. It manipulates a set of trails that I have stored in a SQL database so they are persistent. I have also documented this API using OpenAPI standards.
 
@@ -21,15 +24,15 @@ I had the database basis from the coursework before this one, but there were a c
 - changed datatype from "text" to "varchar(max)" as text is depreciated
 - added "email" property to users table
 
-I wrote the above 2 paragraphs about 2 weeks ago but things have changed since then, I spoke to some people and realised that i have made my database more complicated then it needs to be so i have decided to design it from the bottom up again. I have kept some of the tables as they were but some i have not kept at all or some i have made minor changes to. The new ERD is below;
-
-![ERD](./erd.png){ width=400px }
+## Design
 
 ![Sequence Diagram - New Trail](./sequence-diagram-new-trail.png){ width=400px }
 
 ![Sequence Diagram - Get Trail](./sequence-diagram-get-trail.png){ width=400px }
 
-## Design
+![ERD](./erd.png){ width=400px }
+
+I wrote the above 2 paragraphs about 2 weeks ago but things have changed since then, I spoke to some people and realised that i have made my database more complicated then it needs to be so i have decided to design it from the bottom up again. I have kept some of the tables as they were but some i have not kept at all or some i have made minor changes to. The new ERD is above, i have also designed a couple sequence diagrams to show how the api will work with the client, my api and the auth API provided by you.
 
 ## LSEP
 
@@ -37,20 +40,9 @@ I wrote the above 2 paragraphs about 2 weeks ago but things have changed since t
 
 ## Evaluation
 
+---
+
 # BELOW ARE THE THINGS I NEED TO WRITE
-
-### Introduction
-
-Provides an introduction to the document and signposts the reader to what they will find in the document.
-GitHub link provided. GitHub repo in the correct place (GitHub classroom provided for module).
-Link provide to web.socem deployment of micro-service.
-
-### Background
-
-Outline provided for the micro-service. 4
-Design Appropriate UML diagrams used.
-Clear demonstration of understanding how to design micro-service in place.
-Design clearly shows progression of understanding through high level overview through to detail.
 
 ### LSEP
 
@@ -59,6 +51,11 @@ Literature provided using Harvard style referencing.
 Appropriate approaches used to meet requirements for a secure, private application.
 Data items designed in a way that enforces integrity, privacy and security.
 
+Legal, Social, Ethical and Professional (LSEP). Discuss LSEP, including how you addressed
+issues around information privacy, integrity, security and preserving the data in how you
+designed the micro-service. You may need to refer to the earlier section of design to provide
+clear communication of your activities.
+
 ### Implementation
 
 Implementation discussed at appropriate level in report.
@@ -66,6 +63,10 @@ Implementation matches code in GitHub classroom and provided design diagrams.
 Implementation meets requirements alluded to above (CRUD)
 Implementation is RESTful API
 Endpoints appropriately represented in documentation, design and implementation.
+OWASP top 10?
+
+Implementation. Discuss how you implemented the micro-service. Link to code samples
+where appropriate.
 
 ### Evaluation
 
@@ -73,4 +74,6 @@ Clear evidence of testing provided.
 Reflection provided on further work.
 Honest reflection provided on weak areas of implementation.
 
-OWASP top 10?
+Evaluation. Show here how you tested your implementation and clearly indicate areas for
+further work. Reflect on your strengths/weaknesses and how you might have improved your
+coursework implementation.

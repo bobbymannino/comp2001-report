@@ -1,7 +1,5 @@
 # COMP2001 Report
 
-## Introduction
-
 [**_Web Server_**](http://cent-5-534.uopnet.plymouth.ac.uk/COMP2001/BMannino)
 
 [**_GitHub Repo_**](https://github.com/bobbymannino/comp2001-report)
@@ -9,6 +7,10 @@
 ```
 docker pull bobbymannino/comp2001-report
 ```
+
+---
+
+## Introduction
 
 I have created an API written in python, it enabled all CRUD operations. It manipulates a set of trails that I have stored in a SQL database so they are persistent. I have also documented this API using OpenAPI standards.
 
@@ -70,15 +72,20 @@ There is another function on line 39 that takes a trail_point as a parameter and
 
 ### Further Possible Improvements
 
-- blah blah blah
+- Having endpoints for users so new users can be created/updated/deleted.
+- Have a trail features endpoints
+- could have implimented caching for the trails
+- could have implimented pagination/ordering/filtering for the trails
 
----
+### Weak Areas
 
-### Implementation
+- i couldnt fully grasp my head around the marshmallow and sqlalchamy and how they work together, i understood flask and OpenAPI but i would of liked to have understood the inner workings of mashmallow more. before you say i didnt try hard enough or didnt ask the teachers for help, i did both and more, but i still could get my head around it.
+- designing the database is also a huge weak area for me, maybe the biggest. Part one of the coursework i went way too overboard and that took me weeks to figure out, im a studious person, i enjoy to learn and be educated and to do, but databases are so difficult, you have to think of the bigger picture and how everything relates to each other, i do believe i made progress but still have a long way to go.
 
-### Evaluation
+### Testing
 
-- Clear evidence of testing provided.
-- Reflection provided on further work.
-- Honest reflection provided on weak areas of implementation.
-- Show here how you tested your implementation and clearly indicate areas for further work. Reflect on your strengths/weaknesses and how you might have improved your
+For testing i did personal tests, i used insomnia (beacuse its OS) and created a flow of requests, then if they all passed i assumed it was working, i of course actually was testing as i went along but this was just to be sure.
+
+![Insomnia Tests](./insomnia.png){ width=400px }
+
+Another way i tested was once i had finished i created the docker image, went onto a different machine and pulled it, ran it and tested it again. All is working. Using docker ensures that it doesnt just work on my machine but it works anywhere. I did have trouble building the image on my machine but thats because i have an arm machine and i needed to specify platform amd as MSSQL doesnt support arm. Once i figured that out it was smooth sailing.

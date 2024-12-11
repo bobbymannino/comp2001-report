@@ -26,13 +26,13 @@ I had the database basis from the coursework before this one, but there were a c
 
 ## Design
 
-![Sequence Diagram - New Trail](./sequence-diagram-new-trail.png){ width=400px }
+|                                                                                  |
+| -------------------------------------------------------------------------------- |
+| ![Sequence Diagram - New Trail](./sequence-diagram-new-trail.png){ width=400px } |
+| ![Sequence Diagram - Get Trail](./sequence-diagram-get-trail.png){ width=400px } |
+| ![ERD](./erd.png){ width=400px }                                                 |
 
-![Sequence Diagram - Get Trail](./sequence-diagram-get-trail.png){ width=400px }
-
-![ERD](./erd.png){ width=400px }
-
-I wrote the above 2 paragraphs about 2 weeks ago but things have changed since then, I spoke to some people and realised that i have made my database more complicated then it needs to be so i have decided to design it from the bottom up again. I have kept some of the tables as they were but some i have not kept at all or some i have made minor changes to. The new ERD is above, i have also designed a couple sequence diagrams to show how the api will work with the client, my api and the auth API provided by you.
+I wrote the above 2 paragraphs about 2 weeks ago but things have changed since then, I spoke to some people and realised that i have made my database more complicated then it needs to be so i have decided to design it from the bottom up again. I have kept some of the tables as they were but some i have not kept at all or some i have made minor changes to. The new ERD is above, i have also designed a couple sequence diagrams to show how the api will work with the client, my api and the auth API provided by you. I have also done a couple sequence diagrams to create a vision of the flow of what will happen from when a user submits a request to reciving a response.
 
 ## LSEP
 
@@ -86,6 +86,8 @@ There is another function on line 39 that takes a trail_point as a parameter and
 
 For testing i did personal tests, i used insomnia (beacuse its OS) and created a flow of requests, then if they all passed i assumed it was working, i of course actually was testing as i went along but this was just to be sure.
 
-![Insomnia Tests](./insomnia.png){ width=400px }
+|                                                  |
+| ------------------------------------------------ |
+| ![Insomnia Tests](./insomnia.png){ width=400px } |
 
 Another way i tested was once i had finished i created the docker image, went onto a different machine and pulled it, ran it and tested it again. All is working. Using docker ensures that it doesnt just work on my machine but it works anywhere. I did have trouble building the image on my machine but thats because i have an arm machine and i needed to specify platform amd as MSSQL doesnt support arm. Once i figured that out it was smooth sailing.
